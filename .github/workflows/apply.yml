@@ -1,4 +1,4 @@
-name: "Apply Infrastructure and Upload Data"
+name: "Terraform apply"
 
 on:
   push:
@@ -13,7 +13,7 @@ env:
 
 jobs:
   deploy:
-    name: "Deploy Infrastructure and Upload Data"
+    name: "Contruindo a infraestrutura e gerando o CSV"
     runs-on: ubuntu-latest
     
     steps:
@@ -44,11 +44,11 @@ jobs:
         working-directory: ./IAC
         run: terraform apply -auto-approve -input=false
 
-      - name: Generate CSV File
+      - name: gerando CSV
         working-directory: ./app
         run: python main.py
 
-      - name: Upload CSV to S3
+      - name: Upload CSV para S3
         run: |
           CSV_FILE=$(ls app/data_*.csv | head -n 1)
           aws s3 cp $CSV_FILE "s3://ada-contabil-1182/"
