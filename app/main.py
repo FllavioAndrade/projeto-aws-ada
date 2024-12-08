@@ -32,6 +32,6 @@ def criar_csv():
     
     print(f"Criando Arquivo CSV '{filename}' com {num_rows} linhas")
     return filename
-
+#
 if __name__ == "__main__":
     criar_csv()
