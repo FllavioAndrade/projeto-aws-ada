@@ -10,7 +10,7 @@ def gerar_dados_aleatorios(num_rows):
         row = {
             'ID': random.randint(1000, 9999),
             'Salario': round(random.uniform(10.0, 1000.0), 2),
-            'Admissão': (current_date - timedelta(days=random.randint(0, 365))).strftime('%Y-%m-%d'),
+            'Admissao': (current_date - timedelta(days=random.randint(0, 365))).strftime('%Y-%m-%d'),
             'Setor': random.choice(['DevOps', 'SRE', 'Funcionário_ADA', 'DevSecOps'])
         }
         data.append(row)
