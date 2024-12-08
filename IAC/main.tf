@@ -6,8 +6,6 @@ terraform {
       version = ">=5.70.0"
     }
   }
-  required_version = ">= 1.0.0"
-
   backend "s3" {
     bucket = "terraform-state-ada-1182"
     key    = "terraform.tfstate"
@@ -19,8 +17,8 @@ provider "aws" {
   region = "us-east-1"
   default_tags {
     tags = {
-      Projeto = "ada"
-      dono    = "Flavio"
+      Projeto = "Ada Contabilidade"
+      dono    = "Flavio de Andrade"
     }
   }
 }
