@@ -1,4 +1,4 @@
-name: "Terraform apply"
+name: "Apply Infrastructure and Upload Data"
 
 on:
   push:
@@ -13,7 +13,7 @@ env:
 
 jobs:
   deploy:
-    name: "Contruindo a infraestrutura e gerando o CSV"
+    name: "Deploy Infrastructure and Upload Data"
     runs-on: ubuntu-latest
     
     steps:
@@ -23,32 +23,49 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.6.0  # Versão atualizada do Terraform
+          terraform_version: 1.6.0
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Terraform Init
+      - name: Check and Import S3 Buckets
         working-directory: ./IAC
-        id: init
-        run: terraform init
+        run: |
+          # Inicializa o Terraform
+          terraform init
 
-      - name: Terraform Validate
+          # Verifica e importa o bucket contábil
+          if aws s3 ls "s3://ada-contabil-1182" 2>&1 > /dev/null; then
+            terraform import aws_s3_bucket.bucket_contabil ada-contabil-1182 || true
+          fi
+
+          # Verifica e importa o bucket de estado
+          if aws s3 ls "s3://terraform-state-ada-1182" 2>&1 > /dev/null; then
+            terraform import aws_s3_bucket.terraform_state terraform-state-ada-1182 || true
+            
+            # Configura o backend S3
+            terraform init -force-copy \
+              -backend-config="bucket=terraform-state-ada-1182" \
+              -backend-config="key=terraform.tfstate" \
+              -backend-config="region=us-east-1"
+          fi
+
+      - name: Terraform Plan
         working-directory: ./IAC
-        id: validate
-        run: terraform validate -no-color
+        run: terraform plan
 
       - name: Terraform Apply
         working-directory: ./IAC
         run: terraform apply -auto-approve -input=false
 
-      - name: gerando CSV
+      - name: Generate CSV File
         working-directory: ./app
         run: python main.py
 
-      - name: Upload CSV para S3
+      - name: Upload CSV to S3
         run: |
-          CSV_FILE=$(ls app/contabil_*.csv | head -n 1)
-          aws s3 cp $CSV_FILE "s3://ada-contabil-1182/"
+          BUCKET_NAME=$(cd IAC && terraform output -raw bucket_contabil_name)
+          CSV_FILE=$(ls app/data_*.csv | head -n 1)
+          aws s3 cp $CSV_FILE "s3://${BUCKET_NAME}/"
