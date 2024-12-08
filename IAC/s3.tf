@@ -25,7 +25,7 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
     status = "Enabled"
   }
 }
-Cria um arquivo de output com o nome do bucket criado
+#Cria um arquivo de output com o nome do bucket criado
 output "bucket_contabil_name" {
   value       = aws_s3_bucket.bucket_contabil.id
   description = "Nome do bucket contábil"
