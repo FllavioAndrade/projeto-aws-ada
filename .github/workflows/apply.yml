@@ -50,5 +50,5 @@ jobs:
 
       - name: Upload CSV para S3
         run: |
-          CSV_FILE=$(ls app/data_*.csv | head -n 1)
+          CSV_FILE=$(ls app/contabil_*.csv | head -n 1)
           aws s3 cp $CSV_FILE "s3://ada-contabil-1182/"
