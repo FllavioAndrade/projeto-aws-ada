@@ -71,15 +71,15 @@ jobs:
         working-directory: ./app
         run: python main.py
 
-      - name: Get Bucket Name
-        id: get_bucket
-        working-directory: ./IAC
-        run: |
-          BUCKET_NAME=$(terraform output -raw bucket_contabil_name)
-          echo "BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
+      #- name: Get Bucket Name
+      #  id: get_bucket
+      #  working-directory: ./IAC
+      #  run: |
+      #    BUCKET_NAME=$(terraform output -raw bucket_contabil_name)
+      #    echo "BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
 
       - name: Upload CSV to S3
         run: |
           echo "Fazendo upload do CSV..."
           CSV_FILE=$(ls app/contabil_*.csv | head -n 1)
-          aws s3 cp $CSV_FILE "s3://${BUCKET_NAME}/"
+          aws s3 cp $CSV_FILE "s3://ada-contabil-1182/"
