@@ -26,12 +26,12 @@
 #  }
 #}
 #Cria um arquivo de output com o nome do bucket criado
-output "bucket_contabil_name" {
-  value       = aws_s3_bucket.bucket_contabil.id
-  description = "Nome do bucket contábil"
-}
+#output "bucket_contabil_name" {
+#  value       = aws_s3_bucket.bucket_contabil.id
+#description = "Nome do bucket contábil"
+#}
 
-output "bucket_state_name" {
-  value       = aws_s3_bucket.terraform_state.id
-  description = "Nome do bucket de estado do Terraform"
-}
+#output "bucket_state_name" {
+#  value       = aws_s3_bucket.terraform_state.id
+#  description = "Nome do bucket de estado do Terraform"
+#}
