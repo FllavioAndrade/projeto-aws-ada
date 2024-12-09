@@ -4,6 +4,12 @@ resource "aws_sqs_queue" "processa_arquivo" {
   visibility_timeout_seconds = 60
 }
 
+resource "aws_sns_topic_subscription" "sqs_subscription" {
+  topic_arn = aws_sns_topic.upload_do_arquivo.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.processa_arquivo.arn
+}
+
 # SQS Queue Policy
 resource "aws_sqs_queue_policy" "politica_processa_arquivo" {
   queue_url = aws_sqs_queue.processa_arquivo.id

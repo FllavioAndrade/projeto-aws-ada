@@ -25,6 +25,17 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
     status = "Enabled"
   }
 }
+
+# Notificação do S3 para SNS quando arquivo é criado
+resource "aws_s3_bucket_notification" "notifica_upload" {
+  bucket = aws_s3_bucket.bucket_contabil.id
+
+  topic {
+    topic_arn = aws_sns_topic.upload_do_arquivo.arn
+    events    = ["s3:ObjectCreated:*"]
+  }
+}
+
 #Cria um arquivo de output com o nome do bucket criado
 output "bucket_contabil_name" {
   value       = aws_s3_bucket.bucket_contabil.id
