@@ -2,7 +2,7 @@
 resource "aws_db_instance" "contabil" {
   identifier           = "ada-contabil-db"
   engine              = "postgres"
-  engine_version      = "15.3"  # Versão mais recente e estável
+  engine_version      = "14.7"  # Versão mais estável
   instance_class      = "db.t3.micro"
   allocated_storage   = 20
   skip_final_snapshot = true
@@ -17,7 +17,15 @@ resource "aws_db_instance" "contabil" {
   # Desabilita acesso público
   publicly_accessible = false
   
+  # Habilita backup
+  backup_retention_period = 7
+  
+  # Habilita monitoramento básico
+  monitoring_interval = 0
+  
   tags = {
-    Name = "RDS Contabil"
+    Name    = "RDS Contabil"
+    Projeto = "Ada Contabilidade"
+    dono    = "Flavio de Andrade"
   }
 }
