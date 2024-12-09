@@ -39,7 +39,7 @@ jobs:
      #     echo "Verificando bucket de estado..."
      #     aws s3 ls "s3://terraform-state-ada-1182" && echo "state_bucket_exists=true" >> $GITHUB_OUTPUT || echo "state_bucket_exists=false" >> $GITHUB_OUTPUT
 
-     - name: Terraform Init (Local)
+      - name: Terraform Init (Local)
         working-directory: ./IAC
         run: |
           echo "Removendo backend.tf se existir..."
