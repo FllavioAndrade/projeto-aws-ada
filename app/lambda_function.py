@@ -17,7 +17,7 @@ def save_to_db(filename, line_count):
         user=os.environ['DB_USER'],
         password=os.environ['DB_PASSWORD']
     )
-    
+    #
     cur = conn.cursor()
     
     # Cria a tabela se não existir
