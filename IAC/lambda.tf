@@ -6,10 +6,12 @@ resource "aws_lambda_function" "processa_arquivo" {
   handler         = "lambda_function.lambda_handler"
   runtime         = "python3.8"
   timeout         = 30
-
+  memory_size     = 256
+  
   environment {
     variables = {
-      DB_HOST     = aws_db_instance.contabil.endpoint
+      DB_HOST     = replace(aws_db_instance.contabil.endpoint, ":5432", "")  # Remove a porta do endpoint
+      DB_PORT     = "5432"  # Adiciona a porta separadamente
       DB_NAME     = aws_db_instance.contabil.db_name
       DB_USER     = aws_db_instance.contabil.username
       DB_PASSWORD = aws_db_instance.contabil.password

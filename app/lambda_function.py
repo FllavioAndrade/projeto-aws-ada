@@ -3,7 +3,7 @@ import os
 import boto3
 import psycopg2
 from urllib.parse import unquote_plus
-
+#
 def count_lines(s3_client, bucket, key):
     response = s3_client.get_object(Bucket=bucket, Key=key)
     content = response['Body'].read().decode('utf-8')
