@@ -22,6 +22,14 @@ resource "aws_lambda_function" "processa_arquivo" {
   }
 }
 
+# Trigger da Lambda para processar mensagens do SQS
+resource "aws_lambda_event_source_mapping" "trigger_sqs_lambda" {
+  event_source_arn = aws_sqs_queue.processa_arquivo.arn
+  function_name    = aws_lambda_function.processa_arquivo.function_name
+  batch_size       = 1
+  enabled          = true
+}
+
 # IAM Role para Lambda
 resource "aws_iam_role" "lambda_role" {
   name = "lambda_process_file_role"
