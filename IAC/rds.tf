@@ -2,7 +2,7 @@
 resource "aws_lambda_function" "processa_arquivo" {
   filename         = "../app/lambda_function.zip"
   function_name    = "process-arquivo-contabil"
-  role            = aws_iam_role.lambda_role.arn
+  role            = "aws_iam_role.lambda_role.arn"
   handler         = "lambda_function.lambda_handler"
   runtime         = "python3.8"
   timeout         = 30
