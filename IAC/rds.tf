@@ -2,7 +2,7 @@
 resource "aws_db_instance" "contabil" {
   identifier           = "ada-contabil-db"
   engine              = "postgres"
-  engine_version      = "14.7"  # Versão mais estável
+  engine_version      = "15.4"  # Versão mais estável
   instance_class      = "db.t3.micro"
   allocated_storage   = 20
   skip_final_snapshot = true
