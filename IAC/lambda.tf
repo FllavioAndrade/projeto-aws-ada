@@ -17,7 +17,7 @@ resource "aws_lambda_function" "processa_arquivo" {
   }
 
   vpc_config {
-    subnet_ids         = [aws_subnet.private_1.id]  # Usa a subnet privada que definimos
+    subnet_ids         = [aws_subnet.private_1.id]
     security_group_ids = [aws_security_group.lambda_sg.id]
   }
 }
@@ -60,10 +60,16 @@ resource "aws_iam_role_policy" "lambda_policy" {
         ]
         Resource = [
           "${aws_s3_bucket.bucket_contabil.arn}/*",
-          aws_sqs_queue.processa_arquivo.arn,  # Corrigido para match com o nome do recurso SQS
+          aws_sqs_queue.processa_arquivo.arn,
           "arn:aws:logs:*:*:*"
         ]
       }
     ]
   })
+}
+
+# Política para a Lambda acessar VPC
+resource "aws_iam_role_policy_attachment" "lambda_vpc_policy" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }

@@ -18,7 +18,7 @@ resource "aws_db_instance" "contabil" {
   publicly_accessible = false
   
   # Habilita backup
-  backup_retention_period = 7
+  #backup_retention_period = 7
   
   # Habilita monitoramento básico
   monitoring_interval = 0
