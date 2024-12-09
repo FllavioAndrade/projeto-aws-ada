@@ -8,7 +8,7 @@ resource "aws_db_instance" "contabil" {
   skip_final_snapshot = true
 
   db_name  = "contabil"
-  username = "admin"
+  username = "dbadmin"
   password = "@senhateste@"  # Melhor usar secrets manager em produção
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
