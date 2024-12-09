@@ -47,27 +47,27 @@ jobs:
           echo "Inicializando Terraform localmente..."
           terraform init
 
-      - name: Terraform Import (if buckets exist)
-        working-directory: ./IAC
-        if: steps.check_buckets.outputs.bucket_contabil_exists == 'true' || steps.check_buckets.outputs.state_bucket_exists == 'true'
-        run: |
-          if [ "${{ steps.check_buckets.outputs.bucket_contabil_exists }}" == "true" ]; then
-            echo "Importando bucket contábil..."
-            terraform import aws_s3_bucket.bucket_contabil ada-contabil-1182 || true
-          fi
-          
-          if [ "${{ steps.check_buckets.outputs.state_bucket_exists }}" == "true" ]; then
-            echo "Importando bucket de estado..."
-            terraform import aws_s3_bucket.terraform_state terraform-state-ada-1182 || true
-          fi
+      #- name: Terraform Import (if buckets exist)
+      #  working-directory: ./IAC
+      #  if: steps.check_buckets.outputs.bucket_contabil_exists == 'true' || steps.check_buckets.outputs.state_bucket_exists == 'true'
+      #  run: |
+      #    if [ "${{ steps.check_buckets.outputs.bucket_contabil_exists }}" == "true" ]; then
+      #      echo "Importando bucket contábil..."
+      #      terraform import aws_s3_bucket.bucket_contabil ada-contabil-1182 || true
+      #    fi
+      #    
+      #    if [ "${{ steps.check_buckets.outputs.state_bucket_exists }}" == "true" ]; then
+      #      echo "Importando bucket de estado..."
+      #      terraform import aws_s3_bucket.terraform_state terraform-state-ada-1182 || true
+      #    fi
 
-      - name: Terraform Apply
-        working-directory: ./IAC
-        run: |
-          echo "Aplicando configuração Terraform..."
-          terraform apply -auto-approve -input=false
+      #- name: Terraform Apply
+      #  working-directory: ./IAC
+      #  run: |
+      #    echo "Aplicando configuração Terraform..."
+      #    terraform apply -auto-approve -input=false
 
-      - name: Generate CSV File
+      - name: Gera arquivo CSV
         working-directory: ./app
         run: python main.py
 
@@ -78,7 +78,7 @@ jobs:
       #    BUCKET_NAME=$(terraform output -raw bucket_contabil_name)
       #    echo "BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
 
-      - name: Upload CSV to S3
+      - name: Carrega arquivo CSV para o bucket
         run: |
           echo "Fazendo upload do CSV..."
           CSV_FILE=$(ls app/contabil_*.csv | head -n 1)
