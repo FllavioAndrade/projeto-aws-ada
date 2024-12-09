@@ -30,20 +30,20 @@ jobs:
         with:
           python-version: '3.10'
 
-     # - name: Check S3 Buckets
-     #   id: check_buckets
-     #   run: |
-     #     echo "Verificando bucket contábil..."
-     #     aws s3 ls "s3://ada-contabil-1182" && echo "bucket_contabil_exists=true" >> $GITHUB_OUTPUT || echo "bucket_contabil_exists=false" >> $GITHUB_OUTPUT
-     #     
-     #     echo "Verificando bucket de estado..."
-     #     aws s3 ls "s3://terraform-state-ada-1182" && echo "state_bucket_exists=true" >> $GITHUB_OUTPUT || echo "state_bucket_exists=false" >> $GITHUB_OUTPUT
+      #- name: Check S3 Buckets
+      #  id: check_buckets
+      #  run: |
+      #    echo "Verificando bucket contábil..."
+      #    aws s3 ls "s3://ada-contabil-1182" && echo "bucket_contabil_exists=true" >> $GITHUB_OUTPUT || echo "bucket_contabil_exists=false" >> $GITHUB_OUTPUT
+      #    
+      #    echo "Verificando bucket de estado..."
+      #    aws s3 ls "s3://terraform-state-ada-1182" && echo "state_bucket_exists=true" >> $GITHUB_OUTPUT || echo "state_bucket_exists=false" >> $GITHUB_OUTPUT
 
       - name: Terraform Init (Local)
         working-directory: ./IAC
         run: |
           echo "Removendo backend.tf se existir..."
-     #     rm -f backend.tf
+          rm -f backend.tf
           echo "Inicializando Terraform localmente..."
           terraform init
 
@@ -78,7 +78,7 @@ jobs:
       #    BUCKET_NAME=$(terraform output -raw bucket_contabil_name)
       #    echo "BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
 
-      - name: Carrega arquivo CSV para o bucket
+      - name: Carrega arquivo CSV para S3
         run: |
           echo "Fazendo upload do CSV..."
           CSV_FILE=$(ls app/contabil_*.csv | head -n 1)
