@@ -12,6 +12,7 @@ def count_lines(s3_client, bucket, key):
 def save_to_db(filename, line_count):
     conn = psycopg2.connect(
         host=os.environ['DB_HOST'],
+        port=os.environ['DB_PORT'],
         database=os.environ['DB_NAME'],
         user=os.environ['DB_USER'],
         password=os.environ['DB_PASSWORD']
