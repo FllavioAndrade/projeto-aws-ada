@@ -9,7 +9,7 @@ resource "aws_db_instance" "contabil" {
 
   db_name  = "contabil"
   username = "dbadmin"
-  password = "@senhateste@"  # Melhor usar secrets manager em produção
+  password = "senhateste"  # Melhor usar secrets manager em produção
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.rds.name
