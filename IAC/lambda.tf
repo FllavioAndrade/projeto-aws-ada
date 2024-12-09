@@ -10,8 +10,8 @@ resource "aws_lambda_function" "processa_arquivo" {
   
   environment {
     variables = {
-      DB_HOST     = replace(aws_db_instance.contabil.endpoint, ":5432", "")  # Remove a porta do endpoint
-      DB_PORT     = "5432"  # Adiciona a porta separadamente
+      DB_HOST     = replace(aws_db_instance.contabil.endpoint, ":5432", "") 
+      DB_PORT     = "5432" 
       DB_NAME     = aws_db_instance.contabil.db_name
       DB_USER     = aws_db_instance.contabil.username
       DB_PASSWORD = aws_db_instance.contabil.password
@@ -70,7 +70,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents",
-          "rds:*"  # Adicionado para acesso ao RDS
+          "rds:*" 
         ]
         Resource = [
           "${aws_s3_bucket.bucket_contabil.arn}",
@@ -78,12 +78,13 @@ resource "aws_iam_role_policy" "lambda_policy" {
           aws_sqs_queue.processa_arquivo.arn,
           aws_sns_topic.upload_do_arquivo.arn,
           "arn:aws:logs:*:*:*",
-          "${aws_db_instance.contabil.arn}"  # Adicionado ARN do RDS
+          "${aws_db_instance.contabil.arn}"  
         ]
       }
     ]
   })
 }
+
 # Política para a Lambda acessar VPC
 resource "aws_iam_role_policy_attachment" "lambda_vpc_policy" {
   role       = aws_iam_role.lambda_role.name

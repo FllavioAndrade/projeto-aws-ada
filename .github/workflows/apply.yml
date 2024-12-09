@@ -1,4 +1,4 @@
-name: "Apply Infrastructure and Upload Data"
+name: "Infraestutura e Upload do arquivo CSV"
 
 on:
   push:
@@ -13,7 +13,7 @@ env:
 
 jobs:
   deploy:
-    name: "Deploy Infrastructure and Upload Data"
+    name: "Deploy da infraestrutura e Upload dos Dados"
     runs-on: ubuntu-latest
     
     steps:
