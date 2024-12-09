@@ -1,6 +1,5 @@
 # Lambda Function
 resource "aws_lambda_function" "processa_arquivo" {
-    
   filename         = "../app/lambda_function.zip"
   function_name    = "process-arquivo-contabil"
   role            = aws_iam_role.lambda_role.arn
@@ -18,7 +17,7 @@ resource "aws_lambda_function" "processa_arquivo" {
   }
 
   vpc_config {
-    subnet_ids         = [aws_subnet.lambda_subnet.id]
+    subnet_ids         = [aws_subnet.private_1.id]  # Usa a subnet privada que definimos
     security_group_ids = [aws_security_group.lambda_sg.id]
   }
 }
@@ -61,7 +60,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
         ]
         Resource = [
           "${aws_s3_bucket.bucket_contabil.arn}/*",
-          aws_sqs_queue.process_file.arn,
+          aws_sqs_queue.processa_arquivo.arn,  # Corrigido para match com o nome do recurso SQS
           "arn:aws:logs:*:*:*"
         ]
       }

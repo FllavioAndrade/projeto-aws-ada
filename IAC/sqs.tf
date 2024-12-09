@@ -20,7 +20,7 @@ resource "aws_sqs_queue_policy" "politica_processa_arquivo" {
         Resource = aws_sqs_queue.processa_arquivo.arn
         Condition = {
           ArnEquals = {
-            "aws:SourceArn": aws_sns_topic.file_uploaded.arn
+            "aws:SourceArn": aws_sns_topic.upload_do_arquivo.arn  # Corrigido para match com o nome do tópico SNS
           }
         }
       }
