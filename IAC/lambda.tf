@@ -60,22 +60,28 @@ resource "aws_iam_role_policy" "lambda_policy" {
         Effect = "Allow"
         Action = [
           "s3:GetObject",
+          "s3:ListBucket",
           "sqs:ReceiveMessage",
           "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:ChangeMessageVisibility",
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:PutLogEvents",
+          "rds:*"  # Adicionado para acesso ao RDS
         ]
         Resource = [
+          "${aws_s3_bucket.bucket_contabil.arn}",
           "${aws_s3_bucket.bucket_contabil.arn}/*",
           aws_sqs_queue.processa_arquivo.arn,
-          "arn:aws:logs:*:*:*"
+          aws_sns_topic.upload_do_arquivo.arn,
+          "arn:aws:logs:*:*:*",
+          "${aws_db_instance.contabil.arn}"  # Adicionado ARN do RDS
         ]
       }
     ]
   })
 }
-
 # Política para a Lambda acessar VPC
 resource "aws_iam_role_policy_attachment" "lambda_vpc_policy" {
   role       = aws_iam_role.lambda_role.name
