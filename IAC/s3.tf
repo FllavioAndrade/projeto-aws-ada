@@ -14,17 +14,17 @@ resource "aws_s3_bucket_public_access_block" "acesso_bucket" {
 }
 
 #Cria um bucket S3 para armazenar o estado do Terraform
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform-state-ada-1182"
-  force_destroy = true
-}
+#resource "aws_s3_bucket" "terraform_state" {
+#  bucket = "terraform-state-ada-1182"
+#  force_destroy = true
+#}
 #Bloqueia o acesso público ao bucket
-resource "aws_s3_bucket_versioning" "terraform_state" {
-  bucket = aws_s3_bucket.terraform_state.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+#resource "aws_s3_bucket_versioning" "terraform_state" {
+#  bucket = aws_s3_bucket.terraform_state.id
+#  versioning_configuration {
+#    status = "Enabled"
+#  }
+#}
 
 # Notificação do S3 para SNS quando arquivo é criado
 resource "aws_s3_bucket_notification" "notifica_upload" {
